@@ -1,0 +1,23 @@
+<div class="ui-modal-container is-hidden" id="new-moment-modal">
+<div class="ui-modal">
+<div class="ui-modal-content">
+<div class="ui-modal-title">Moments
+<div class="ui-modal-desc">Get to share your moments with people who follows you</div>
+</div>
+
+<div class="ui-field">
+<form method="post" enctype="multipart/form-data" hx-post="/moments/create" hx-encoding="multipart/form-data" hx-target="#moments" hx-swap="afterend">
+{% csrf_token %}
+<textarea maxlength="500" name="moment_text" placeholder="Describe your moment" required></textarea>
+<input type="file" id="moment-field" name="moment_image">
+
+<div class="button-field">
+<button type="submit" class="b-radius button w-full"> Submit </button>
+<a id="close" class="ui-modal-close b-radius button w-full hover:bg-red-100 hover:text-red-500">Close</a>
+</div>
+</form>
+</div>
+
+</div>
+</div>
+</div>

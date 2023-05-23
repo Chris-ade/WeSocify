@@ -1,0 +1,73 @@
+{% extends 'wrapper.html' %}
+{% load widget_tweaks humanize static custom_date %}
+{% block content %}
+<section class="container sidebar-boxed">
+<div class="py-4" id="ui-moment-container" id="moments">
+<div class="ui-moment-image">
+<a class="modal-trigger" data-modal="new-moment-modal">
+<span class="bg-gray-900 bg-opacity-30 ui-moment-user justify-content-center">
+<svg role="img" class="icon icon--20 icon--white mr-2" viewBox="0 0 24 24" aria-labelledby="addMomentIcon" class="icon w-6 h-6">
+<title id="plusIconTitle">Add a moment</title>
+<path d="M20 12L4 12M12 4L12 20"></path>
+</svg>
+Add a moment</span>
+<img src="{{request.user.avatar.url}}" class="ui-moment" alt="{{request.user.username}}'s picture">
+</a>
+</div>
+</div>
+
+<div class="ui-modal-container is-hidden" id="new-moment-modal">
+<div class="ui-modal">
+<div class="ui-modal-content">
+<div class="ui-modal-title">Moments
+<div class="ui-modal-desc">Get to share your moments with people who follows you</div>
+</div>
+
+<div class="ui-field">
+<form method="post" enctype="multipart/form-data" hx-post="/moments/i/create" hx-encoding="multipart/form-data" hx-target="#moments" hx-swap="beforeend">
+{% csrf_token %}
+<textarea maxlength="500" name="moment_text" placeholder="Describe your moment" required></textarea>
+<input type="file" id="moment-field" name="moment_image">
+
+<div class="button-field">
+<button type="submit" class="b-radius button w-full"> Submit </button>
+<a id="close" class="ui-modal-close b-radius button w-full hover:bg-red-100 hover:text-red-500">Close</a>
+</div>
+</form>
+</div>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<script>
+const moments = new Moment('ui-moment-container', {
+  stories: [
+  {% for moment in moments %}
+  {
+  id: "moment{{moment.id}}",
+  photo: "{{moment.user.avatar.url}}",
+  name: "{{moment.user.name}} • {{moment.created_at|custom_date}} @{{moment.user.username}}",
+  link: "{{moment.user.username}}",
+  items: [
+  {% for image in moment.images.all %}
+    {
+      id: "item{{image.id}}",
+      type: "photo",
+      length: 3,
+      src: "{{image.image.url}}",
+      preview: "{{image.image.url}}",
+      link: "{% url 'moments:moments' %}",
+      linkText: "Swipe up",
+      time: "{{image.created_at}}",
+    },
+  {% endfor %}
+  ]
+},
+ {% endfor %}
+  ]
+});
+</script>
+{% endblock %}

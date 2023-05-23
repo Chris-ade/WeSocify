@@ -1,0 +1,24 @@
+@font-face {
+	font-family: BRFirma;
+	src: url(BRFirma-Regular.228a7b4731e8da471eca26a1e7cc8cb6.woff2) format("woff2"),url(BRFirma-Regular.72be421dc733dfcb9dd570e321fbdd05.woff) format("woff");
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: BRFirma Medium;
+	src: url(BRFirma-Medium.9c55e185c6030c89f4f99730622f3835.woff2) format("woff2"),url(BRFirma-Medium.8e10e4212d43a617100dee4da1211a45.woff) format("woff");
+	font-weight: 500;
+	font-style: normal;
+}
+@font-face {
+	font-family: BRFirma Semibold;
+	src: url(BRFirma-SemiBold.5511490aa0d630de8ed57eb24ed605b1.woff2) format("woff2"),url(BRFirma-SemiBold.3a813f1a8ac7c385d67e9ecd02572510.woff) format("woff");
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: BRFirma Bold;
+	src: url(BRFirma-Bold.b20731bc803734ba36bc47a4a4220ecb.woff2) format("woff2"),url(BRFirma-Bold.f7484e096d2012688e238d88e609be1f.woff) format("woff");
+	font-weight: 700;
+	font-style: normal;
+}

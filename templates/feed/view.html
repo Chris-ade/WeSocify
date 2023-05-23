@@ -1,0 +1,13 @@
+{% extends 'wrapper-no-bar.html' %}
+{% load widget_tweaks humanize static %}
+{% block content %}
+<section>
+<div class="feed-container py-5">
+<div id="feed-container">
+{% include './view/header.html' %}
+{% include './view/content.html' %}
+{% include './view/footer.html' %}
+</div>
+</div>
+</section>
+{% endblock %}

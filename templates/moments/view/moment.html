@@ -1,0 +1,23 @@
+<div class="ui-moment-image pt-2">
+<div uk-lightbox>
+{% for image in moment.images.all %}
+{% if forloop.counter == 1 %}
+<a href="{{image.image.url}}">
+<span class="bg-gray-900 bg-opacity-30 ui-moment-user">
+<img src="{{moment.user.avatar.url}}" alt="{{comment.user.username}}'s comment">
+{{moment.user.name}} • {{moment.created_at|timesince}} <br> @{{moment.user.username}} 
+{% with total=moment.images.all.count %}
+{% if total > 1 %}
+| +{{total|add:-1}} more
+{% endif %}
+{% endwith %}
+</span>
+<img src="{{image.image.url}}" class="ui-moment" alt="{{moment.user.username}}'s moment">
+<span class="ui-moment-caption bg-gray-900 bg-opacity-30">
+<span>{{moment.text}}</span>
+</span>
+</a>
+{% endif %}
+{% endfor %}
+</div>
+</div>

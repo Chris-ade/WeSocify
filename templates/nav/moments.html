@@ -1,0 +1,33 @@
+{% load static %}
+<div class="container-fluid py-2">
+<div class="stories-wrapper is-home is-full">
+<div class="inner-wrapper">
+<div class="stories-content">
+<div class="stories-container">
+<div class="container-inner" id="moments">
+<a class="story modal-trigger" data-modal="new-moment-modal">
+<div class="story-avatar">
+<img class="avatar" src="{{user.avatar.url}}" alt="{{request.user.username}}'s avatar">
+<div class="add-overlay">
+<svg role="img" viewBox="0 0 24 24" aria-labelledby="addMomentIcon" class="icon w-6 h-6">
+<title id="plusIconTitle">Add a moment</title>
+<path d="M20 12L4 12M12 4L12 20"></path>
+</svg>
+</div>
+</div>
+</a>
+{% for moment in moments %}
+<a class="story" id="moment{{moment.id}}" href="/moments">
+<div class="story-avatar">
+<img class="avatar" src="{{moment.user.avatar.url}}" alt="{{moment.user.username}}'s moment">
+</div>
+</a>
+{% endfor %}
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>

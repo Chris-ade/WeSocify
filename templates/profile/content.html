@@ -1,0 +1,85 @@
+{% extends 'wrapper.html' %}
+{% load widget_tweaks humanize static %}
+{% block content %}
+<div class="ui-feed-header">
+<div class="ui-feed-header-title"><span>{{user_post_count}} Feed{{user_post_count|pluralize}}</span>
+</div>
+<div class="modal-trigger ui-feed-header-menu" data-modal="feed-menu-modal" data-id="{{post.id}}"><i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1"></i></div>
+</div>
+
+<div class="ui-block ui-profile ui-padding-t50">
+<div class="ui-profile-header">
+<div class="ui-profile-header-thumb cover-bg">
+<img src="{{user.cover.url}}">
+<div class="cover-overlay"></div>
+<a class="cover-button" href="{% url 'feed:home' %}"><svg class="icon icon--20" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6"></path><path d="M21 12H4"></path><path stroke-linecap="round" d="M3 12h1"></path></svg></a>
+{% if user.username == request.user.username  %}
+<a class="cover-button cover-edit" href="{% url 'accounts:settings' %}">
+<svg class="icon icon--20" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<path d="M18.4142136 4.41421356L19.5857864 5.58578644C20.366835 6.36683502 20.366835 7.63316498 19.5857864 8.41421356L8 20 4 20 4 16 15.5857864 4.41421356C16.366835 3.63316498 17.633165 3.63316498 18.4142136 4.41421356zM14 6L18 10"></path></svg>
+</a>
+{% else %}
+<a class="cover-button cover-edit" href="{% url 'accounts:settings' %}">
+<svg role="img" class="icon icon--20" viewBox="0 0 24 24">
+<path stroke-linejoin="round" d="M10.5,4.5 C12.1666667,4.5 13.8333333,4.5 15.5,4.5 C17.5,4.5 18.8333333,3.83333333 19.5,2.5 L19.5,18.5 C18.8333333,17.1666667 17.5,16.5 15.5,16.5 C13.8333333,16.5 12.1666667,16.5 10.5,16.5 L10.5,16.5 C7.1862915,16.5 4.5,13.8137085 4.5,10.5 L4.5,10.5 C4.5,7.1862915 7.1862915,4.5 10.5,4.5 Z" transform="rotate(90 12 10.5)"></path>
+<path d="M11,21 C12.1045695,21 13,20.1045695 13,19 C13,17.8954305 12.1045695,17 11,17" transform="rotate(90 12 19)"></path>
+</svg>
+</a>
+{% endif %}
+</div>
+
+<div class="ui-profile-block">
+<div class="ui-profile-user">
+<a class="ui-user-stats" href="{% url 'accounts:followers' user.username %}"><span>{{user_followers.count}}</span> Followers</a>
+<a href="{{user.avatar.url}}" class="ui-user-thumb">
+<img src="{{user.avatar.url}}" alt="{{user.username}}'s picture">
+</a>
+<a class="ui-user-stats" href="{% url 'accounts:following' user.username %}"><span>{{user_following.count}}</span> Following</a>
+</div>
+
+<div class="ui-user-info">
+<div class="ui-user-name">{{user.name}}</div>
+<span class="ui-at">@{{user.username}}</span>
+</div>
+
+<div class="ui-user-button-wrapper">
+{% if user.username != request.user.username  %}
+{% if request.user in user_followers %}
+<a href="{% url 'accounts:follow' user=user.username %}" class="ui-user-button button">Following</a>
+{% else %}
+<a href="{% url 'accounts:follow' user=user.username %}" class="ui-user-button button">Follow</a>
+{% endif %}
+<a href="{}" class="ui-user-button message-button button">DM</a>
+{% endif %}
+</div>
+
+{% if user.bio is not None %}
+<div class="ui-user-bio">{{user.bio|linebreaksbr|safe}}</div>
+{% endif %}
+<div class="ui-user-details">
+{% if user.location %}
+<span class="mr-2"><svg class="icon icon--16 mr-1" role="img" width="24" height="24" viewBox="0 0 24 24"><path d="M12,21 C16,16.8 18,12.8 18,9 C18,5.6862915 15.3137085,3 12,3 C8.6862915,3 6,5.6862915 6,9 C6,12.8 8,16.8 12,21 Z"></path><circle cx="12" cy="9" r="1"></circle></svg>{{user.location}}</span>
+{% elif user.website %}
+<span class="mr-2"><svg role="img" class="icon icon--16 mr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.5,15.5 C10.5,14.1666667 10.5,13.5 10.5,13.5 C10.5,10.7385763 8.26142375,8.5 5.5,8.5 C2.73857625,8.5 0.5,10.7385763 0.5,13.5 C0.5,13.5 0.5,14.1666667 0.5,15.5" transform="rotate(-90 5.5 12)"></path><path d="M8,12 L16,12"></path><path d="M23.5,15.5 C23.5,14.1666667 23.5,13.5 23.5,13.5 C23.5,10.7385763 21.2614237,8.5 18.5,8.5 C15.7385763,8.5 13.5,10.7385763 13.5,13.5 C13.5,13.5 13.5,14.1666667 13.5,15.5" transform="rotate(90 18.5 12)"></path></svg>  
+<a href="{{user.website}}" target="_blank">{{user.website}}</a> </span>
+{% endif %}
+<span class="mr-2"><svg class="icon icon--16 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5H21V21H3V5Z"></path><path d="M21 9H3"></path><path d="M7 5V3"></path><path d="M17 5V3"></path></svg> Joined {{user.date_joined|date:"F o"}}</span>
+{% if user.username == request.user.username  %}
+<span><svg class="icon icon--16 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 5H21V21H3V5Z"></path><path d="M21 9H3"></path><path d="M7 5V3"></path><path d="M17 5V3"></path></svg> Born on {{user.birth_date|date:"F j, o"}}</span>
+{% endif %}
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="ui-block ui-profile ui-profile-tab-wrapper">
+<ul class="flex-nowrap lg:overflow-hidden overflow-x-scroll uk-tab ui-profile-tab px-2">
+<li class="uk-active"><a hx-get="{% url 'accounts:feeds' username=user.username %}" hx-target="#tabs-content" hx-swap="innerHTML" hx-trigger="load, click">Feeds <span></span></a></li>
+<li><a hx-get="{% url 'accounts:with_replies' username=user.username %}" hx-target="#tabs-content" hx-swap="innerHTML">Feeds & replies <span></span></a></li>
+<li><a hx-get="{% url 'accounts:media' username=user.username %}" hx-target="#tabs-content" hx-swap="innerHTML">Media <span></span></a></li>
+<li><a hx-get="{% url 'accounts:likes' username=user.username %}" hx-target="#tabs-content" hx-swap="innerHTML">Likes <span></span></a></li>
+</ul>
+<div class="ui-tabs-content py-3" id="tabs-content"></div>
+</div>
+{% endblock %}

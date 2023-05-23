@@ -1,0 +1,123 @@
+{% load humanize static %}
+{% for post in posts %}
+<div class="ui-block post" id="feed{{post.id}}">
+<a class="ui-feed-link" href="{{post.user.username}}/feed/{{post.id}}">
+<div class="flex items-center pt-5 pb-2">
+<div class="flex flex-1 space-x-4">
+<a href="/{{post.username}}" class="p-0.5 rounded-full"><img src="{{post.user.avatar.url}}" class="bg-gray-200 border border-white rounded-full w-12 h-12"></a>
+<div class="block">
+<div>
+<span class="font-bold">{{post.user.name}} </span> • <span>{{post.created_at|timesince}}</span>
+</div>
+<a href="/{{post.username}}">@{{post.username}}</a>
+</div>
+</div>
+
+<div class="modal-trigger mr-4" style="z-index: 1;" data-modal="feed-menu-modal" data-id="{{post.id}}"><i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1"></i></div>
+</div>
+
+<div class="py-3 px-4 space-y-3" id="feed-text{{post.id}}">{{post.text}}</div>
+
+{% if post.images.all.count == 1 %}
+<div class="feed-image" uk-lightbox>
+{% for image in post.images.all %}
+<a class="feed-image-item" href="{{image.image.url}}" style="background-image: url({{image.image.url}});display: block;" title="{{post.username}}'s post"></a>
+{% endfor %}
+</div>
+{% elif post.images.all.count == 2 %}
+<div class="feed-image" uk-lightbox>
+<div class="feed-image-column">
+{% for image in post.images.all %}
+<a class="feed-image-item image-item" href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post"></a>
+{% endfor %}
+</div>
+</div>
+{% elif post.images.all.count == 3 %}
+<div class="feed-masonry-grid" uk-lightbox>
+{% for image in post.images.all %}
+{% if forloop.counter == 1 %}
+<div class="feed-masonry-column">
+<a href="{{post.user.avatar.url}}" style="background-image: url({{post.user.avatar.url}});" title="{{post.username}}'s post"></a>
+</div>
+{% endif %}
+{% endfor %}
+<div class="feed-masonry-columns">
+{% for image in post.images.all %}
+{% if forloop.counter > 1 %}
+<a href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post"></a>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+{% elif post.images.all.count == 4 or post.images.all.count > 4 %}
+<div class="feed-masonry-grid" uk-lightbox>
+{% for image in post.images.all %}
+{% if forloop.counter == 1 %}
+<div class="feed-masonry-column">
+<a href="{{post.user.avatar.url}}" style="background-image: url({{post.user.avatar.url}});" title="{{post.username}}'s post"></a>
+</div>
+{% endif %}
+{% endfor %}
+<div class="feed-masonry-columns">
+{% for image in post.images.all %}
+{% if forloop.counter > 3 %}
+<a href="{{image.image.url}}" class="is-hidden"></a>
+{% else %}
+{% if forloop.counter == 3 %}
+<a href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post">
+{% with total=post.images.all.count %}
+{% if total > 3 %}
+<span class="bg-gray-900 bg-opacity-30">
++{{total|add:-3}} more
+</span>
+{% endif %}
+{% endwith %}
+</a>
+{% else %}
+<a href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post"></a>
+{% endif %}
+{% endif %}
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+<div class="py-3 px-4 space-y-3"> 
+{% include 'feed/partials/action_buttons.html' %}
+{% if post.likes.all %}
+<div class="post-footer flex">
+<div class="likers-group">
+{% for liker in post.likes.all %}
+<img src="{{liker.avatar.url}}" alt="">
+{% empty %}
+{% endfor %}
+<div class="likers-icon">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+</div>
+</div>
+
+<div class="social-count">
+<div class="likes-count">
+<svg class="icon w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+<span>{{post.likes.count|intword}}</span>
+</div>
+<div class="shares-count">
+<svg class="icon w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link-2"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+<span>{{post.likes.count|intword}}</span>
+</div>
+<div class="comments-count">
+<svg class="icon w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+<span>{{post.comments.count|intword}}</span>
+</div>
+</div>
+</div>
+{% endif %}
+</div>
+</a>
+</div>
+{% empty %}
+<div class="has-text-centered" id="no_data">
+<p> You are all caught up </p>
+<br>
+</div>
+{% endfor %}

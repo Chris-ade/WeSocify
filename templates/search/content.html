@@ -1,0 +1,17 @@
+{% load static %}
+{% for users in user_profile_list %}
+<section class="search-result-item">
+<a class="image-link" href="/{{users.username}}"><img class="image" src="/media/{{users.avatar}}">
+</a>
+<div class="search-result-item-body">
+<div class="row">
+<div class="col-sm-9">
+<h4 class="search-result-item-heading"><a href="/{{users.username}}"><b>@{{users.username}}</b></a></h4>
+<p class="info">{{users.location}}</p>
+<p class="description">{{users.bio}}</p>
+</div>
+
+</div>
+</div>
+</section>
+{% endfor %}

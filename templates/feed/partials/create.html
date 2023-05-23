@@ -1,0 +1,157 @@
+{% load widget_tweaks humanize static %}
+<div class="main-feed-container is-hidden-mobile">
+<div class="ui-block is-new-content">
+<div class="new-feed-form" id="compose-card">
+<div class="nav nav-tabs" role="tablist">
+
+<a class="nav-link inline-items ml-auto is-hidden hover:bg-gray-200" id="close-publish">
+<svg role="img" class="icon w-6 h-6" viewBox="0 0 24 24"><path d="M6.34314575 6.34314575L17.6568542 17.6568542M6.34314575 17.6568542L17.6568542 6.34314575"></path></svg>
+</a>
+</div>
+
+<div class="tab-content">
+<div class="tab-pane active">
+<form method="POST" enctype="multipart/form-data" hx-post="{% url 'feed:post' %}" hx-encoding="multipart/form-data" hx-target="#feed-container" hx-swap="afterbegin">
+{% csrf_token %}
+<div class="message-form-inner py-4">
+{% render_field post_form.text class="message-form" placeholder="Whats new?" id="publish" %}
+<div class="create-poll-wrapper">
+<div class="create-poll-content">
+<div class="poll-field">
+<div class="form-group label-floating is-empty pb-2 mr-2">
+<label class="control-label">Choice 1</label>
+<input class="form-control" type="text" name="choice1" maxlength="25">
+</div>
+<div class="form-group label-floating is-empty pb-2">
+<label class="control-label">Choice 2</label>
+<input class="form-control" type="text" name="choice2" maxlength="25">
+</div>
+<a class="uk-button uk-button-default poll-add-field">
+<svg class="icon icon--24" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<path d="M17 12L7 12M12 17L12 7"></path>
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+</a>
+</div>
+
+<div class="poll-field optional-fields">
+<div class="form-group label-floating is-empty pb-2 mr-2">
+<label class="control-label">Choice 3 (optional)</label>
+<input class="form-control" type="text" name="choice3" maxlength="25">
+</div>
+<div class="form-group label-floating is-empty pb-2">
+<label class="control-label">Choice 4 (optional)</label>
+<input class="form-control" type="text" name="choice4" maxlength="25">
+</div>
+</div>
+
+<div class="row no-gutters">
+<div class="col mr-2">
+<div class="form-group label-floating">
+<label class="control-label">Days</label>
+<select class="ui-select form-control" name="poll_days">
+<option> 0 </option>
+<option selected> 1 </option>
+<option> 2 </option>
+<option> 3 </option>
+<option> 4 </option>
+<option> 5 </option>
+<option> 6 </option>
+<option> 7 </option>
+</select>
+</div>
+</div>
+
+<div class="col mr-2">
+<div class="form-group label-floating">
+<label class="control-label">Hours</label>
+<select class="ui-select form-control" name="poll_hours">
+{% for x in poll_hours %}
+<option> {{x}} </option>
+{% endfor %}
+</select>
+</div>
+</div>
+
+<div class="col">
+<div class="form-group label-floating">
+<label class="control-label">Minutes</label>
+<select class="ui-select form-control" name="poll_minutes">
+{% for x in poll_minutes %}
+<option> {{x}} </option>
+{% endfor %}
+</select>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="create-poll-footer">
+<span>Poll length - <span class="duration">1 day</span></span>
+<span class="remove">Remove</span>
+</div>
+</div>
+</div>
+<div class="selected-files" id="queued-files"></div>
+<div class="add-options-message">
+<div class="add-option-buttons">
+<div class="add-option-item add-image">
+<svg role="img" class="icon icon--20" viewBox="0 0 24 24">
+<rect width="18" height="18" x="3" y="3"></rect>
+<path stroke-linecap="round" d="M3 14l4-4 11 11"></path>
+<circle cx="13.5" cy="7.5" r="2.5"></circle>
+<path stroke-linecap="round" d="M13.5 16.5L21 9"></path>
+</svg>
+</div>
+
+<div class="add-option-item add-poll">
+<svg class="icon icon--20" viewBox="0 0 24 24" fill="none">
+<path d="M4 4V20"></path>
+<path d="M4 6H15V10H4"></path>
+<path d="M4 10H19V14H4"></path>
+<path d="M4 14H12V18H4"></path>
+</svg>
+</div>
+
+<div class="add-option-item">
+<svg role="img" class="icon icon--20" viewBox="0 0 24 24"><path d="M7.3010863,14.0011479 C8.0734404,15.7578367 9.98813711,17 11.9995889,17 C14.0024928,17 15.913479,15.7546194 16.6925307,14.0055328"></path>
+<line stroke-linecap="round" x1="9" y1="9" x2="9" y2="9"></line>
+<line stroke-linecap="round" x1="15" y1="9" x2="15" y2="9"></line>
+<circle cx="12" cy="12" r="10"></circle></svg>
+</div>
+
+<div class="add-option-item">
+<svg class="icon icon--20" viewBox="0 0 24 24">
+<path d="M3 5H21V21H3V5Z"></path>
+<path d="M21 9H3"></path>
+<path d="M7 5V3"></path>
+<path d="M17 5V3"></path>
+<rect x="15" y="15" width="2" height="2"></rect></svg>
+</div>
+
+<div class="add-option-item">
+<svg role="img" class="icon icon--20" viewBox="0 0 24 24"><path d="M12,21 C16,16.8 18,12.8 18,9 C18,5.6862915 15.3137085,3 12,3 C8.6862915,3 6,5.6862915 6,9 C6,12.8 8,16.8 12,21 Z"></path>
+<circle cx="12" cy="9" r="1"></circle></svg>
+</div>
+
+<div class="add-option-item">
+<a id="preview-button"><svg class="icon icon--20" viewBox="0 0 24 24"><path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg></a>
+</div>
+</div>
+
+
+<div class="add-option-buttons is-publish-button">
+<button type="submit" class="publish-button" id="publish-button">Post</button>
+</div>
+
+<input class="hidden" type="file" name="image" id="photo_field" multiple>
+</div>
+</form>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>

@@ -1,0 +1,63 @@
+<div class="ui-modal-container is-hidden" id="feed-menu-modal">
+<div class="ui-modal">
+<div class="ui-modal-content">
+
+<div class="ui-field">
+<div class="button-field">
+<button class="ui-modal-close rounded-md button hover:bg-red-100 hover:text-red-500"> <svg role="img" class="icon icon--20" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.34314575 6.34314575L17.6568542 17.6568542M6.34314575 17.6568542L17.6568542 6.34314575"></path></svg></button>
+</div>
+</div>
+
+<div class="rounded-md" id="feed-menu{{post.id}}" data-id="{{post.id}}">
+<ul class="space-y-3" style="font-size: 16px;">
+{% if request.user.username == post.user.username %}
+<li data-id="{{post.id}}">
+<div class="flex items-center py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md">
+<svg role="img" class="icon icon--22 mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="muteIconTitle"><path d="M18 10L22 14M18 14L22 10"></path><path d="M13 5v14l-5-4H3V9h5z"></path><path stroke-linecap="round" d="M13 14c1.5-1 1.5-3 0-4"></path></svg> Mute this conversation </div>
+</li>
+<li class="update-feed" data-id="{{post.id}}">
+<div class="flex items-center py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md">
+<svg class="icon icon--22 mr-4" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<path d="M18.4142136 4.41421356L19.5857864 5.58578644C20.366835 6.36683502 20.366835 7.63316498 19.5857864 8.41421356L8 20 4 20 4 16 15.5857864 4.41421356C16.366835 3.63316498 17.633165 3.63316498 18.4142136 4.41421356zM14 6L18 10"></path></svg> Edit feed </div>
+</li>
+<li class="delete-feed" data-id="{{post.id}}">
+<div class="flex items-center py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md">
+<svg role="img" class="icon icon--22 mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.34314575 6.34314575L17.6568542 17.6568542M6.34314575 17.6568542L17.6568542 6.34314575"></path></svg> Delete feed</div>
+</li>
+{% else %}
+{% if request.user in post.user.followers.all %}
+<li data-id="{{post.id}}">
+<a class="flex items-center py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md" hx-get="{% url 'accounts:follow' user=request.user.username %}" hx-target="#feed-menu-modal" hx-swap="outerHTML">
+<svg class="icon icon--22 mr-4" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ><path d="M1 18C1 15.75 4 15.75 5.5 14.25C6.25 13.5 4 13.5 4 9.75C4 7.25025 4.99975 6 7 6C9.00025 6 10 7.25025 10 9.75C10 13.5 7.75 13.5 8.5 14.25C10 15.75 13 15.75 13 18"></path><path d="M22 11H14"></path><path d="M18 7V15"></path>
+</svg> Unfollow @{{post.user.username}}</a>
+</li>
+{% else %}
+<li data-id="{{post.id}}">
+<a class="flex items-center py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md" hx-get="{% url 'accounts:follow' user=request.user.username %}" hx-target="#feed-menu-modal" hx-swap="outerHTML">
+<svg class="icon icon--22 mr-4" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ><path d="M1 18C1 15.75 4 15.75 5.5 14.25C6.25 13.5 4 13.5 4 9.75C4 7.25025 4.99975 6 7 6C9.00025 6 10 7.25025 10 9.75C10 13.5 7.75 13.5 8.5 14.25C10 15.75 13 15.75 13 18"></path><path d="M22 11H14"></path><path d="M18 7V15"></path>
+</svg> Follow @{{post.user.username}}</a>
+</li>
+{% endif %}
+
+<li data-id="{{post.id}}">
+<div class="flex items-center py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md">
+<svg role="img" class="icon icon--22 mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="muteIconTitle"><path d="M18 10L22 14M18 14L22 10"></path><path d="M13 5v14l-5-4H3V9h5z"></path><path stroke-linecap="round" d="M13 14c1.5-1 1.5-3 0-4"></path></svg> Mute @{{post.user.username}}</div>
+</li>
+<li>
+<div class="flex items-center py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md">
+<svg role="img" class="icon icon--22 mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path stroke-linecap="square" d="M5,5 L19,19"></path>
+</svg> Block @{{post.user.username}}</div>
+</li>
+<hr>
+<li data-id="{{post.id}}">
+<div class="flex items-center py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md">
+<svg role="img" class="icon icon--22 mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 20v-5c1.333-1.333 3-2 5-2 3 0 4 2 6 2 1 0 2-.333 3-1V5c-1 .667-2 1-3 1-2 0-3-2-6-2-2 0-3.667.667-5 2v9"></path></svg>
+     Report feed</div>
+</li>
+{% endif %}
+</ul>
+</div>
+
+</div>
+</div>
+</div>

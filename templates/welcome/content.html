@@ -1,0 +1,144 @@
+{% load widget_tweaks static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{page_title}} / WeSocify</title>
+<meta charset="UTF-8" />
+<meta name="theme-color" content="#3d70b2"/>
+<meta name="description" content="Welcome to Social NG. Join Social NG. Connect with your friends and family. Interact. Share ideas. Get updates all over NG." />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" />
+<link rel="stylesheet" href="{% static 'css/uikit.css' %}" type="text/css">
+<link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/main-2.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<div class="progress-loading" id="loading-bar"><div class="indeterminate"></div></div>
+<div class="app-overlay"></div>
+  
+<div class="login-wrapper">
+<div class="login-container row display-flex">
+<div class="login-sidebar col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+<div class="login-sidebar-content is-hidden-mobile">
+<img src="/static/images/sidebar-phone.png" alt="sidebar-picture">
+</div>
+</div>
+
+<div class="login-content col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+<div id="particles-js"></div>
+<div id="login-account-form">
+<div class="container-fluid d-flex align-center justify-center login-form-container login-form-mobile">
+<div class="form-title text-center">Welcome back, log in</div>
+
+<form action="{% url 'accounts:welcome' %}" method="POST" autocomplete="off">
+{% csrf_token %}
+<div class="login-form">
+{% if error %}
+<div class="notification-box notification-box-extra notification-box-error">
+<p>{{error}}</p>
+<div class="notification-close notification-close-error"></div>
+</div>
+{% endif %}
+<div class="form-group label-floating">
+<label class="control-label">Phone number, username or e-mail</label>
+{% render_field form.username class="form-control" type="text" maxlength="50" required="required" %}
+<span class="material-input"></span>
+</div>
+
+<div class="form-group label-floating">
+<label class="control-label">Password</label>
+{% render_field form.password class="form-control" id="password" type="password" required="required" %}
+<div id="toggle-password" class="button">
+<svg class="icon icon--20" viewBox="0 0 24 24"><path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+</div>
+<span class="material-input"></span>
+</div>
+
+<div class="is-flex justify-content-center">
+<a href="/forgot">Forgot password?</a>
+</div>
+
+<button class="login-button-full" type="submit" style="font-weight:600">Sign In</button>
+</form>
+<a class="login-button-outline" href="{% url 'accounts:register' %}">Create an account</a>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<footer class="bg-white">
+<div class="container-fluid" style="padding:4em 0 0 0;">
+<div class="row justify-content-between" style="margin:0">
+<div class="app-actions d-flex align-items-center col-sm-6 col-lg-3 mb-5 mb-lg-0 flex-column">
+<h4><sup>We</sup>Socify</h4>
+<p>is built for Nigerians by a Nigerian.</p>
+<p>Powered and coded with <i class="fas fa-heart heart-beat" style="color: #f71416;"></i> by Chris Ade.</span> <br> Made in 🇳🇬 </p>
+</div>
+
+<div class="col-6 col-sm-6 col-md-2 col-lg-2 mb-4 mb-lg-0">
+<p class="mb-4" style="font-family:BRFirma Bold;font-size:17px">Links</p>
+<ul class="nav flex-column">
+<li class="nav-item mb-3">
+<a href="/support">Support</a>
+</li>
+<li class="nav-item mb-3">
+<a href="{% url 'accounts:privacy' %}">Privacy policy</a>
+</li>
+<li class="nav-item mb-3">
+<a href="{% url 'accounts:terms' %}">Terms &amp; conditions</a>
+</li>
+</ul>
+</div>
+
+<div class="col-6 col-sm-6 col-md-2 col-lg-2 mb-4 mb-lg-0">
+<p class="mb-4" style="font-family:BRFirma Bold;font-size:17px">Reach out</p>
+<ul class="nav flex-column">
+<li class="nav-item mb-3">
+<p class="mb-0"><a href="mailto:help@social-ng.com">help@wesocify.com</a></p>
+</li>
+<li class="nav-item mb-3">
+<p class="mb-0">
+<a href="tel:2348161201965">+234 (0) 816 120 1965</a>
+</p>
+</li>
+</ul>
+</div>
+
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-4 mb-lg-0">
+<p class="mb-4" style="font-family:BRFirma Bold;font-size:17px">Address</p>
+<ul class="nav flex-column">
+<li class="nav-item mb-3">
+<span>GEM 11 Aralopon Str., Ilesa, OS, NG</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div style="border-top:1px solid rgba(225, 225, 225, .2)">
+<div class="container" style="padding-bottom: .5em">
+<div class="row justify-content-center" style="margin:0">
+<div class="col-12">
+<p class="text-center mb-0" style="font-size:14px">&copy; 2023 | WeSocify Inc.</p>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+</body>
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'js/eruda.min.js' %}"></script>
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script src="{% static 'js/functions.js' %}"></script>
+<script src="{% static 'plugins/particles-js/particles.min.js' %}"></script>
+<script src="{% static 'js/material.min.js' %}"></script>
+<script src="{% static 'js/uikit.js' %}"></script>
+<script>
+eruda.init();
+</script>
+</html>

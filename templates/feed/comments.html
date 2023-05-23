@@ -1,0 +1,53 @@
+{% load humanize tags %}
+{% for comment in post.comments.all %}
+<div class="ui-comment-container flex relative w-full">
+<div class="w-12 h-12 rounded-full relative flex-shrink-0">
+<img src="{{comment.user.avatar.url}}" alt="{{comment.user.username}}'s picture" class="h-full rounded-full w-full">
+</div>
+<div class="ui-comment h-full relative lg:ml-5">
+<div class="ui-comment-user"><span class="font-bold">{{comment.user.name}}</span>
+</div>
+<div class="ui-comment-text">
+<p>Replying to <a href="{% url 'accounts:profile' username=post.user.username %}" class="ui-at">@{{post.user.username}}</a></p>{{comment.text|linebreaksbr|safe}}</div>
+{% if comment.comment_image.all %}
+<div class="ui-comment-image pt-2">
+<div class="feed-image" uk-lightbox>
+{% for image in comment.comment_image.all %}
+<a class="feed-image-item" href="{{image.image.url}}">
+<img src="{{image.image.url}}" alt="{{comment.user.username}}'s comment">
+{% with total=comment.comment_image.all.count %}
+{% if total > 1 %}
+<span class="bg-gray-900 bg-opacity-30">
++{{total|add:-1}} more
+</span>
+{% endif %}
+{% endwith %}
+</a>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+<div class="ui-comment-buttons">
+<div class="ui-comment-time"><a href="{% url 'accounts:profile' username=comment.user.username %}" class="ui-at">@{{comment.user.username}}</a> - {{comment.created_at|custom_date}}</div>
+<button class="ui-comment-button ui-like-button">
+<svg class="icon icon--16" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+</button>
+<button class="ui-comment-button">
+<svg class="icon icon--16" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+</button>
+</div>
+</div>
+<div class="ui-comment-menu">
+<div class="modal-trigger" data-modal="feed-menu-modal" data-id="{{post.id}}"><i class="icon-feather-chevron-down font-medium hover:bg-gray-200 rounded-full p-2 transition"></i>
+</div>
+<div class="ui-comment-stats">
+<div class="ui-stats"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> 
+<span>1.5K</span></div>
+<div class="ui-stats"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> <span>50</span></div>
+<div class="ui-stats">
+<svg class="icon stroke-current" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14V6"></path><path d="M9 8L12 5L15 8"></path><path d="M5 13V18H19V13"></path></svg>
+<span>5</span></div>
+</div>
+</div>
+</div>
+{% endfor %}

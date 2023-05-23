@@ -1,0 +1,61 @@
+{% extends 'wrapper-no-bar.html' %}
+{% load widget_tweaks humanize static %}
+{% block content %}
+<div class="ui-feed-header">
+<a href="{% url 'accounts:profile' user.username %}" class="ui-feed-header-button hover:bg-gray-200 rounded-full p-2 transition -mr-1">
+<svg class="icon icon--20" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6"></path><path d="M21 12H4"></path><path stroke-linecap="round" d="M3 12h1"></path></svg>
+</a>
+<div class="ui-feed-header-title" style="margin-left: 2.3rem;">Followers</div>
+<div class="modal-trigger ui-feed-header-menu mr-2" data-modal="feed-menu-modal" data-id="{{post.id}}">
+<svg class="icon icon--24" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="addIconTitle">
+<path d="M17 12L7 12M12 17L12 7"></path>
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+</div>
+</div>
+<div class="ui-block ui-following px-3">
+<div class="ui-following-list">
+{% for follow in followers %}
+{% if follow in request.user.followers.all %}
+<div class="ui-follows-you">
+<svg class="icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<polyline points="7 13 10 16 17 9"></polyline>
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+<span>Follows you</span>
+</div>
+{% endif %}
+<div class="ui-follow">
+<div class="flex">
+<div class="ui-follow-thumb">
+<img src="{{follow.avatar.url}}">
+</div>
+</div>
+<div class="ui-follow-details">
+<div class="ui-follow-name flex">
+<div class="ui-follow-name-inner"><span class="font-bold">{{ follow.name }}</span>
+<a class="ui-at" href="{% url 'accounts:profile' follow.username %}">@{{ follow.username }}</a>
+</div>
+{% if follow != request.user %}
+{% if follow in request.user.following.all %}
+<a href="{% url 'accounts:follow' user=follow.username %}" class="ui-follow-button">Following</a>
+{% elif follow in request.user.followers.all  %}
+<a href="{% url 'accounts:follow' user=follow.username %}" class="ui-follow-button">Follow Back</a>
+{% else %}
+<a href="{% url 'accounts:follow' user=follow.username %}" class="ui-follow-button">Follow</a>
+{% endif %}
+{% endif %}
+</div>
+<div class="ui-follow-bio">{{follow.bio|truncatechars:"92"}}</div>
+</div>
+</div>
+{% empty %}
+<div class="ui-no-contents p-4">
+<h3 class="text-xl font-bold">Looking for followers? </h3>
+<div class="mt-2"><p> When someone follows this account they'll show up here. <br>
+Posting feeds and interacting with others helps boost followers.</p></div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

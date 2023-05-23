@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{page_title}} | WeSocify</title>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#3d70b2">
+<meta name="description" content="Welcome to Social NG. Join Social NG. Connect with your friends and family. Interact. Share ideas. Get updates all over NG.">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+<meta name="token" content="{{ csrf_token }}">
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+<link rel="stylesheet" href="{% static 'css/icons.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/uikit.css' %}" type="text/css">
+<link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/main-2.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/animate.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/iziToast/iziToast.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/zuck/zuck.css' %}">
+<script src="{% static 'plugins/zuck/zuck.js' %}"></script>
+</head>
+
+<body>
+<div class="progress-loading" id="loading-bar"><div class="indeterminate"></div></div>
+<div class="app-overlay" id="app-overlay"></div>
+<main id="content" role="main" class="view-wrapper is-sidebar-view h-full">
+{% include './nav/sidebar.html' %}
+{% block content %}{% endblock %}
+</main>
+
+<script src="{% static 'js/jquery-3.6.3.min.js' %}"></script>
+<script src="{% static 'js/eruda.min.js' %}"></script>
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script src="{% static 'js/functions.js' %}"></script>
+<script src="{% static 'js/material.min.js' %}"></script>
+<script src="{% static 'js/uikit.js' %}"></script>
+<script src="{% static 'plugins/iziToast/iziToast.min.js' %}"></script>
+<script>
+eruda.init();
+</script>
+</body>
+</html>

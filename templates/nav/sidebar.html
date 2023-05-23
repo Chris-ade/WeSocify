@@ -1,0 +1,119 @@
+<section>
+<div class="is-sidebar is-hidden-mobile flex items-center p-10 space-x-6">
+<div class="flex flex-col items-center w-40 h-full overflow-hidden">
+<a class="flex items-center w-full px-3 mt-3 brand-icon">
+<svg class="w-8 h-8 fill-current" viewBox="0 0 20 20" fill="currentColor">
+<path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+</svg>
+<h4 class="ml-2 brand-logo"><sup>We</sup>Socify</h4>
+</a>
+<div class="w-full px-2 overflow-y no-scrollbar">
+<div class="is-item-wrapper">
+<a class="is-item is-active no-stroke" href="{% url 'feed:home' %}">
+<svg viewBox="0 0 24 24" aria-labelledby="homeAlt2IconTitle" class="icon w-6 h-6">
+<title id="homeAlt2IconTitle">Home</title>
+<path d="M2 12L5 9.3M22 12L19 9.3M19 9.3L12 3L5 9.3M19 9.3V21H5V9.3"></path>
+</svg>
+<span class="ml-2 font-medium">Home</span>
+</a>
+<a class="is-item" href="{% url 'feed:explore' %}">
+<svg role="img" class="icon w-6 h-6" viewBox="0 0 24 24" aria-labelledby="hashIconTitle">
+<title id="hashIconTitle">Explore</title>
+<path d="M11 3L5 21M19 3L13 21M3 16L19 16M5 8L21 8"></path>
+</svg>
+<span class="ml-2 text-sm font-medium">Explore</span>
+</a>
+<a class="is-item" href="{% url 'feed:notifications' %}">
+<svg role="img" class="icon w-6 h-6" viewBox="0 0 24 24" aria-labelledby="bellIconTitle">
+<title id="bellIconTitle">Notifications</title>
+<path stroke-linejoin="round" d="M10.5,4.5 C12.1666667,4.5 13.8333333,4.5 15.5,4.5 C17.5,4.5 18.8333333,3.83333333 19.5,2.5 L19.5,18.5 C18.8333333,17.1666667 17.5,16.5 15.5,16.5 C13.8333333,16.5 12.1666667,16.5 10.5,16.5 L10.5,16.5 C7.1862915,16.5 4.5,13.8137085 4.5,10.5 L4.5,10.5 C4.5,7.1862915 7.1862915,4.5 10.5,4.5 Z" transform="rotate(90 12 10.5)"></path>
+<path d="M11,21 C12.1045695,21 13,20.1045695 13,19 C13,17.8954305 12.1045695,17 11,17" transform="rotate(90 12 19)"></path>
+</svg>
+<span class="ml-2 text-sm font-medium">Notifications</span>
+</a>
+<a class="is-item" href="{% url 'feed:messages' %}">
+<svg role="img" class="icon w-6 h-6" viewBox="0 0 24 24" aria-labelledby="envelopeAltIconTitle">
+<title id="envelopeAltIconTitle">Messages</title>
+<rect width="20" height="14" x="2" y="5"></rect>
+<path stroke-linecap="round" d="M2 5l10 9 10-9"></path>
+</svg>
+<span class="ml-2 text-sm font-medium">Messages</span>
+</a>
+<a class="is-item" href="{% url 'feed:questions' %}">
+<svg class="icon w-6 h-6 stroke-current" viewBox="0 0 24 24" aria-labelledby="listViewIconTitle">
+<title id="listViewIconTitle">Q & A</title>
+<path d="M5 5H19"></path>
+<path d="M5 19H19"></path>
+<rect x="5" y="9" width="14" height="6"></rect>
+</svg>
+<span class="ml-2 text-sm font-medium">Q & A</span>
+</a>
+<a class="is-item" href="{% url 'feed:rooms' %}">
+<svg class="icon w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+</svg>
+<span class="ml-2 text-sm font-medium">Chatrooms</span>
+</a>
+<a class="is-item" hx-get="{% url 'accounts:logout' %}" hx-target="body" hx-push-url="/welcome" href="{% url 'accounts:logout' %}">
+<svg role="img" viewBox="0 0 24 24" aria-labelledby="exitIconTitle" class="icon w-6 h-6">
+<title id="exitIconTitle">Logout</title>
+<path d="M18 15l3-3-3-3"></path>
+<path d="M11.5 12H20"></path>
+<path stroke-linecap="round" d="M21 12h-1"></path>
+<path d="M15 4v16H4V4z"></path>
+</svg>
+<span class="ml-2 text-sm font-medium">Logout</span>
+</a>
+</div>
+</div>
+<a class="is-item-profile" href="{% url 'accounts:profile' username=request.user.username %}">
+<img src="{{request.user.avatar.url}}" class="is-profile-pic">
+<div class="ml-2 text-sm font-medium is-user-name">
+<h5 class="font-bold text-truncate"> {{request.user.name}} </h5>
+<span>@{{request.user.username}} </span>
+</div>
+</a>
+</div>
+</div>
+
+<div class="is-mobile-nav is-hidden-tablet is-hidden-desktop">
+<div class="is-mobile-nav-wrapper">
+<div class="is-item-container">
+<div class="is-item-wrapper">
+<a class="is-item is-active" href="{% url 'feed:home' %}">
+<svg role="img" class="icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<path d="M3 10.182V22h18V10.182L12 2z"></path>
+<rect width="6" height="8" x="9" y="14" fill="#fff" stroke=""></rect>
+</svg>
+</a>
+<a class="is-item" href="{% url 'feed:notifications' %}">
+<svg role="img" class="icon w-6 h-6" viewBox="0 0 24 24">
+<path stroke-linejoin="round" d="M10.5,4.5 C12.1666667,4.5 13.8333333,4.5 15.5,4.5 C17.5,4.5 18.8333333,3.83333333 19.5,2.5 L19.5,18.5 C18.8333333,17.1666667 17.5,16.5 15.5,16.5 C13.8333333,16.5 12.1666667,16.5 10.5,16.5 L10.5,16.5 C7.1862915,16.5 4.5,13.8137085 4.5,10.5 L4.5,10.5 C4.5,7.1862915 7.1862915,4.5 10.5,4.5 Z" transform="rotate(90 12 10.5)"></path>
+<path d="M11,21 C12.1045695,21 13,20.1045695 13,19 C13,17.8954305 12.1045695,17 11,17" transform="rotate(90 12 19)"></path>
+</svg>
+</a>
+<a class="is-item is-item-create" href="{% url 'feed:compose' %}">
+<div>
+<span>
+<svg class="icon icon--24" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="addIconTitle">
+<path d="M17 12L7 12M12 17L12 7" stroke="#1d9bf0"></path>
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+</span>
+</div>
+</a>
+<a class="is-item overlay"></a>
+<a class="is-item" href="{% url 'feed:messages' %}">
+<svg role="img" class="icon w-6 h-6" viewBox="0 0 24 24">
+<rect width="20" height="14" x="2" y="5"></rect>
+<path stroke-linecap="round" d="M2 5l10 9 10-9"></path>
+</svg>
+</a>
+<a class="is-item is-item-profile" href="{% url 'accounts:profile' username=request.user.username %}">
+<img src="{{request.user.avatar.url}}">
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>

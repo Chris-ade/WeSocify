@@ -1,0 +1,31 @@
+{% load static %}
+<div class="ui-block">
+<div class="ui-block-title">
+<h6 class="title">Who to follow?</h6>
+<a href="" class="more">
+<svg viewBox="0 0 24 24" fill="none" aria-labelledby="moreAltIconTitle" class="icon w-6 h-6"><circle cx="9" cy="6" r="2"></circle><path d="M4 6H7"></path><path d="M11 6H20"></path><circle cx="9" cy="18" r="2"></circle><path d="M4 18H7"></path><path d="M11 18H20"></path><circle cx="15" cy="12" r="2"></circle><path d="M4 12H13"></path><path d="M17 12L20 12"></path></svg>
+</a>
+</div>
+
+<ul class="widget followers-list notification-list">
+{% for suggest in suggestions %}
+<li class="inline-items">
+<img src="{{suggest.avatar.url}}" alt="author">
+<div class="notification-event">
+<div class="notification-friend">{{suggest.name}}</div>
+<div class="text-sm">
+<a href="/{{suggest.username}}">@{{suggest.username}}</a>
+</div>
+</div>
+<a class="notification-icon" href="{% url 'profiles:follow' suggest.id %}">Follow</a>
+</li>
+{% empty %}
+<div class="inline-items text-center p-6">
+<p>
+<svg role="img" class="icon w-12 h-12 mb-2" viewBox="0 0 24 24" aria-labelledby="cancelIconTitle"><path d="M15.5355339 15.5355339L8.46446609 8.46446609M15.5355339 8.46446609L8.46446609 15.5355339"></path><path d="M4.92893219,19.0710678 C1.02368927,15.1658249 1.02368927,8.83417511 4.92893219,4.92893219 C8.83417511,1.02368927 15.1658249,1.02368927 19.0710678,4.92893219 C22.9763107,8.83417511 22.9763107,15.1658249 19.0710678,19.0710678 C15.1658249,22.9763107 8.83417511,22.9763107 4.92893219,19.0710678 Z"></path></svg>
+</p> <br>
+<p> You have no recommended followers for now </p>
+</div>
+{% endfor %}
+</ul>
+</div>

@@ -1,0 +1,140 @@
+{% load humanize static tags %}
+<div class="ui-block post ui-no-radius ui-margin-t30" id="feed{{post.id}}">
+<div class="flex items-center px-3 pt-5 pb-2">
+<div class="flex flex-1 space-x-4">
+<a href="{% url 'accounts:profile' username=post.user.username %}" class="rounded-full"><img src="{{post.user.avatar.url}}" class="bg-gray-200 border border-white rounded-full w-12 h-12"></a>
+<div class="block">
+<div>
+<span class="font-bold">{{post.user.name}} </span> - <span>{{post.created_at|custom_date}}</span>
+</div>
+<a href="{% url 'accounts:profile' username=post.user.username %}" class="ui-at">@{{post.user.username}}</a>
+</div>
+</div>
+
+</div>
+
+<div class="py-2 px-4 space-y-3" id="feed-text{{post.id}}">{{post.text|linebreaksbr|safe}}</div>
+
+<div class="px-4">
+{% with images=post.images.all %}
+{% if images.count == 1 %}
+<div class="feed-image" uk-lightbox>
+{% for image in images %}
+<a class="feed-image-item" href="{{image.image.url}}" style="background-image: url({{image.image.url}});display: block;" title="{{post.username}}'s post"></a>
+{% endfor %}
+</div>
+{% elif images.count == 2 %}
+<div class="feed-image" uk-lightbox>
+<div class="feed-image-column">
+{% for image in images %}
+<a class="feed-image-item image-item" href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post"></a>
+{% endfor %}
+</div>
+</div>
+{% elif images.count == 3 or images.count > 3 %}
+<div class="feed-masonry-grid" uk-lightbox>
+<div class="feed-masonry-column">
+{% for image in images %}
+{% if forloop.counter == 1 %}
+<a href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post"></a>
+{% endif %}
+{% endfor %}
+</div>
+<div class="feed-masonry-columns">
+{% for image in images|slice:":3" %}
+<a href="{{image.image.url}}" style="background-image: url({{image.image.url}});" title="{{post.username}}'s post"></a>
+{% endfor %}
+{% with total=images.count %}
+{% if total > 3 %}
+<span class="bg-gray-900 bg-opacity-30">+{{total|add:-3}} more</span>
+{% endif %}
+{% endwith %}
+</div>
+</div>
+{% endif %}
+{% endwith %}
+</div>
+
+{% if post.poll %}
+<div id="ui-poll{{post.id}}" class="px-4">
+{% with poll=post.poll %}
+{% if request.user in poll.users_voted %}
+<div class="ui-poll-result">
+{% for choice in poll.choices.all %}
+<div class="ui-result-wrapper">
+<div class="uk-button uk-button-default{%  user_voted choice=choice user=request.user %}"><span class="text">{{choice.choice_text}}</span> <span class="bg" style="width: {% poll_percentage choice.votes poll.votes_count %};"></span></div> <span> {% poll_percentage choice.votes poll.votes_count %} </span>
+</div>
+{% endfor %}
+<p class="ui-poll-stats">{{poll.votes_count}} votes</p>
+</div>
+{% else %}
+<div class="ui-poll-wrapper" id="poll{{post.id}}" data-feed="{{post.id}}" data-poll="{{poll.id}}">
+{% for choice in poll.choices.all %}
+<a class="uk-button uk-button-default" data-choice="{{choice.id}}">{{ choice.choice_text }}</a>
+{% endfor %}
+<p class="ui-poll-stats">{{ poll.votes_count }} votes</p>
+</div>
+{% endif %}
+{% endwith %}
+</div>
+{% endif %}
+
+
+<div class="px-4 space-y-3">
+<div class="ui-feed-footer pt-2 space-y-3"> 
+<div class="ui-feed-footer-inner">
+<div class="social-count view-count">
+<div class="comments-count">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+{% with count=post.comments.count %}
+{% if count >= 1 %}
+<span>{{ count|intword }} </span>
+{% endif %}
+{% endwith %}
+</div>
+
+<div class="shares-count">
+<svg role="img" class="icon" width="24" height="24" viewBox="0 0 24 24">
+<path d="M4 8L7 5L10 8"></path>
+<path d="M7 20L7 6"></path>
+<path d="M20 17L17 20L14 17"></path>
+<path d="M17 5L17 19"></path>
+</svg>
+{% with count=post.repost.count %}
+{% if count >= 1 %}
+<span>{{ count|intword }} </span>
+{% endif %}
+{% endwith %}
+</div>
+
+<div class="likes-count {% if request.user in post.likes.all %} is-liked{% endif %}" data-id="{{post.id}}" id="like-button">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+{% with count=post.likes.count %}
+{% if count >= 1 %}
+<span>{{ count|intword }} </span>
+{% endif %}
+{% endwith %}
+</div>
+
+<div class="likes-count">
+<svg role="img" class="icon" width="24" height="24" viewBox="0 0 24 24">
+<path d="M16 8L8 11 16 8zM16 16L8 13 16 16z"></path>
+<circle cx="6" cy="12" r="2"></circle>
+<circle cx="18" cy="7" r="2"></circle>
+<circle cx="18" cy="17" r="2"></circle>
+</svg>
+</div>
+
+</div>
+<hr>
+</div>
+</div>
+
+<div class="ui-comment-list border-t w-full pt-4 space-y-4" id="comments{{post.id}}" style="height:100%;max-height:100%;min-height:100%;">
+{% include 'feed/comments.html' %}
+</div>
+
+</div>
+</div>
+
+{% include '../modals/view/menu.html' %}

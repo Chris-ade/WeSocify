@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'JunePro';
+    src: local('JunePro-Bold'),
+        url('JunePro-Bold.woff2') format('woff2'),
+        url('JunePro-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JunePro';
+    src: local('JunePro-Heavy'),
+        url('JunePro-Heavy.woff2') format('woff2'),
+        url('JunePro-Heavy.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JunePro';
+    src: local('JunePro-Semibold'),
+        url('JunePro-Semibold.woff2') format('woff2'),
+        url('JunePro-Semibold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JunePro';
+    src: local('JunePro-Medium'),
+        url('JunePro-Medium.woff2') format('woff2'),
+        url('JunePro-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JunePro';
+    src: local('JunePro-Regular'),
+        url('JunePro-Regular.woff2') format('woff2'),
+        url('JunePro-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

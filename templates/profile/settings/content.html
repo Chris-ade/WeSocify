@@ -1,0 +1,107 @@
+{% extends 'wrapper.html' %}
+{% load widget_tweaks humanize static %}
+{% block content %}
+<div class="ui-feed-header">
+<a href="{% url 'accounts:profile' username=request.user.username %}" class="ui-feed-header-button hover:bg-gray-200 rounded-full p-2 transition">
+<svg class="icon icon--20" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6"></path><path d="M21 12H4"></path><path stroke-linecap="round" d="M3 12h1"></path></svg>
+</a>
+<div class="ui-feed-header-title">Profile Settings</div>
+</div>
+
+<div class="ui-block ui-profile" style="margin-top: 60px;">
+<div class="ui-profile-header">
+<div class="ui-profile-header-thumb cover-bg" id="cover_picture">
+<img src="{{user.cover.url}}">
+<div class="cover-overlay"></div>
+<a class="cover-button" id="change_avatar">
+<svg class="icon" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<rect width="18" height="18" x="3" y="3"></rect>
+<path stroke-linecap="round" d="M3 14l4-4 11 11"></path>
+<circle cx="13.5" cy="7.5" r="2.5"></circle>
+<path stroke-linecap="round" d="M13.5 16.5L21 9"></path>
+</svg>
+</a>
+<a class="cover-button is-right" id="change_cover"> 
+<svg class="icon" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="cover-icon">
+<title id="cover-icon">Change cover</title>
+<rect width="13" height="13" x="3" y="3"></rect>
+<polyline points="16 8 21 8 21 21 8 21 8 16"></polyline>
+</svg>
+</a>
+</div>
+
+<div class="ui-profile-block">
+<div class="ui-profile-user">
+<a href="{{user.avatar.url}}" class="ui-user-thumb" id="profile_picture"><img src="{{user.avatar.url}}" alt="{{user.username}}'s picture"></a>
+</div>
+</div>
+
+<div class="ui-settings">
+<form action="{% url 'accounts:settings' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{% if error %}
+<div class="notification-box notification-box-extra notification-box-error">
+<p>{{error}}</p>
+<div class="notification-close notification-close-error"></div>
+</div>
+{% endif %}
+
+{% render_field form.cover class="is-hidden" id="cover_picture_field" %}
+{% render_field form.avatar class="is-hidden" id="profile_picture_field" %}
+<div class="form-group label-floating">
+<label class="control-label">Name</label>
+<input type="text" class="form-control" value="{{user.name}}" maxlength="30" readonly="readonly">
+<p class="material-input p-1">You can't change your name.</p>
+</div>
+
+<div class="form-group label-floating">
+<label class="control-label">Bio</label>
+{% render_field form.bio class="form-control" rows="3" %}
+<p class="material-input p-1">Talk more about yourself in 150 characters</p>
+</div>
+
+<div class="form-group label-floating">
+<label class="control-label">Location</label>
+{% render_field form.location class="form-control" %}
+<p class="material-input p-1">Your location</p>
+</div>
+
+<div class="form-group label-floating">
+<label class="control-label">Website</label>
+<input type="text" class="form-control" value="{{user.website}}" name="website" maxlength="30">
+<p class="material-input"></p>
+</div>
+
+<div class="p-1"> <p>Birth date - <a href="">Edit</a></p>
+<h5 class="h6">{{user.birth_date|date:"F j, o"}}</h5>
+</div>
+
+<div class="form-group label-floating">
+<label class="control-label">Birth Date</label>
+<input type="date" class="form-control" value="{{user.birth_date|date:"Y-m-d"}}" name="birth_date">
+<p class="material-input p-1">This should be the date of birth of the person using the account.</p>
+<p class="material-input p-1"> Wesocify uses your age to customize your experience, including ads, as explained in our Privacy Policy.</p>
+</div>
+
+<div class="mb-1"> <p>Who can see this?</p></div>
+<div class="form-group label-floating">
+<label class="control-label">Birth date</label>
+<select class="form-control" name="privacy">
+<option> Everyone </option>
+<option> Your followers </option>
+<option selected> Only you </option>
+</select>
+<p class="material-input p-1"> You can control who sees your birth date.</p>
+</div>
+
+<div class="flex w-100">
+<button class="uk-button uk-button-primary mr-2 uk-width-1-1" type="submit">Save</button>
+</div>
+</form>
+<div class="mb-4"></div>
+<br><br>
+</div>
+
+</div>
+</div>
+{% endblock %}

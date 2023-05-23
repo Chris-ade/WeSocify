@@ -1,0 +1,24 @@
+{% load tags %}
+{% if post.poll %}
+<div id="ui-poll{{post.id}}">
+{% with poll=post.poll %}
+{% if request.user in poll.users_voted %}
+<div class="ui-poll-result">
+{% for choice in poll.choices.all %}
+<div class="ui-result-wrapper">
+<div class="uk-button uk-button-default {% if choice.vote.user == request.user %}selected{% endif %}"><span class="text">{{choice.choice_text}}</span> <span class="bg" style="width: {% poll_percentage choice.votes poll.votes_count %};"></span></div> <span> {% poll_percentage choice.votes poll.votes_count %} </span>
+</div>
+{% endfor %}
+<p class="ui-poll-stats">{{poll.votes_count}} votes</p>
+</div>
+{% else %}
+<div class="ui-poll-wrapper" id="poll{{post.id}}" data-feed="{{post.id}}" data-poll="{{poll.id}}">
+{% for choice in poll.choices.all %}
+<a class="uk-button uk-button-default" data-choice="{{choice.id}}">{{ choice.choice_text }}</a>
+{% endfor %}
+<p class="ui-poll-stats">{{ poll.votes_count }} votes</p>
+</div>
+{% endif %}
+{% endwith %}
+</div>
+{% endif %}
