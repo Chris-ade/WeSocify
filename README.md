@@ -19,4 +19,4 @@ Although, the project still has a long way to go, but I'm gradually making progr
 <p>So, that's been it.</p>
 
 Thank you. <br>
-<strong>Chris Adebiyi (Hackinubee)</strong>
+<strong>Chris Adebiyi (Chris-ade)</strong>
